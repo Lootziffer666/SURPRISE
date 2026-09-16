@@ -4,7 +4,9 @@ export class InventoryStack {
   constructor(player, assetFactory, options = {}) {
     this.player = player;
     this.assetFactory = assetFactory;
-    this.gap = options.gap || 0.075;
+    this.gap = options.gap ?? 0.075;
+    this.onChange = typeof options.onChange === 'function' ? options.onChange : null;
+    this.onError = typeof options.onError === 'function' ? options.onError : null;
     this.items = [];
     this.currentStackHeight = 0;
     this.nextId = 1;
@@ -49,6 +51,7 @@ export class InventoryStack {
     this.items.push(item);
     this.group.add(mesh);
     this.reflow();
+    this._notifyChange();
     return item;
   }
 
@@ -67,6 +70,7 @@ export class InventoryStack {
     this.group.remove(item.mesh);
     this._disposeMesh(item.mesh);
     this.reflow();
+    this._notifyChange();
     return item;
   }
 
@@ -78,6 +82,7 @@ export class InventoryStack {
     this.group.remove(item.mesh);
     this._disposeMesh(item.mesh);
     this.reflow();
+    this._notifyChange();
     return item;
   }
 
@@ -113,6 +118,7 @@ export class InventoryStack {
     }
     this.items.length = 0;
     this.currentStackHeight = 0;
+    this._notifyChange();
   }
 
   reflow() {
@@ -122,6 +128,26 @@ export class InventoryStack {
       y += item.height + this.gap;
     }
     this.currentStackHeight = Math.max(0, y - this.gap);
+  }
+
+  _notifyChange() {
+    if (this.onChange) {
+      try {
+        this.onChange(this.getItems());
+      } catch (error) {
+        this.reportError(error, { phase: 'inventory-change' });
+      }
+    }
+  }
+
+  reportError(error, context = {}) {
+    if (this.onError) {
+      try {
+        this.onError(error, context);
+      } catch {
+        return;
+      }
+    }
   }
 
   _disposeMesh(mesh) {

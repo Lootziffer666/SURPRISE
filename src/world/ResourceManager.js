@@ -1,24 +1,22 @@
+import * as THREE from 'three';
+import { GAME_CONFIG } from '../config/gameConfig.js';
+
 export class ResourceManager {
   constructor(scene, assetFactory, inventory, mapManager, options = {}) {
     this.scene = scene;
     this.assetFactory = assetFactory;
     this.inventory = inventory;
     this.mapManager = mapManager;
-    this.collectionRadius = options.collectionRadius || 1.45;
+    this.collectionRadius = options.collectionRadius ?? GAME_CONFIG.collectionRadius;
     this.collectionRadiusSquared = this.collectionRadius ** 2;
     this.collectibles = [];
+    this.onCollect = typeof options.onCollect === 'function' ? options.onCollect : null;
+    this.onError = typeof options.onError === 'function' ? options.onError : null;
     this._disposed = false;
   }
 
   spawnStartingResources() {
-    const types = [
-      'wood',
-      'wood',
-      'wood',
-      'rawMeat',
-      'rawMeat',
-      'cash',
-    ];
+    const types = ['wood', 'wood', 'wood', 'rawMeat', 'rawMeat', 'cash'];
     for (let index = 0; index < 36; index += 1) {
       const type = types[index % types.length];
       const x = (Math.random() - 0.5) * 58;
@@ -28,6 +26,9 @@ export class ResourceManager {
   }
 
   spawnResource(type, x, z, parent = this.scene) {
+    if (!parent) {
+      return null;
+    }
     const mesh = this.assetFactory.createResourceMesh(type);
     if (!mesh) {
       return null;
@@ -42,6 +43,9 @@ export class ResourceManager {
   }
 
   update(playerPosition) {
+    if (this._disposed) {
+      return;
+    }
     for (let index = this.collectibles.length - 1; index >= 0; index -= 1) {
       const resource = this.collectibles[index];
       if (!resource || resource.userData.collected) {
@@ -69,6 +73,13 @@ export class ResourceManager {
       this.collectibles.splice(index, 1);
     }
     this.inventory.add(resource.userData.resourceType);
+    if (this.onCollect) {
+      try {
+        this.onCollect(resource.userData.resourceType);
+      } catch (error) {
+        this.reportError(error, { phase: 'collect-callback' });
+      }
+    }
     return true;
   }
 
@@ -93,5 +104,15 @@ export class ResourceManager {
       }
     }
     this.collectibles.length = 0;
+  }
+
+  reportError(error, context = {}) {
+    if (this.onError) {
+      try {
+        this.onError(error, context);
+      } catch {
+        return;
+      }
+    }
   }
 }

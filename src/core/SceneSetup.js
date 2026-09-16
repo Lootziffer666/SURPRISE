@@ -1,7 +1,9 @@
 import * as THREE from 'three';
 
 export class SceneSetup {
-  constructor() {
+  constructor(options = {}) {
+    this.onError = typeof options.onError === 'function' ? options.onError : null;
+    this._disposed = false;
     this.renderer = new THREE.WebGLRenderer({
       antialias: true,
       powerPreference: 'high-performance',
@@ -13,7 +15,12 @@ export class SceneSetup {
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
     this.renderer.toneMappingExposure = 1.05;
-    document.body.appendChild(this.renderer.domElement);
+    this.renderer.domElement.setAttribute('role', 'img');
+    this.renderer.domElement.setAttribute('aria-label', 'Snow Resource Run game scene');
+    this._onContextLost = this._handleContextLost.bind(this);
+    this.renderer.domElement.addEventListener('webglcontextlost', this._onContextLost);
+    const root = document.getElementById('game-root') || document.body;
+    root.appendChild(this.renderer.domElement);
 
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0x9cc8e8);
@@ -59,17 +66,18 @@ export class SceneSetup {
   }
 
   updateCamera(targetPosition, deltaTime) {
+    const safeDelta = Math.max(0, deltaTime);
     this.cameraTarget.copy(targetPosition).add(this.cameraOffset);
-    const positionAmount = 1 - Math.exp(-this.cameraPositionSmoothing * deltaTime);
-    const lookAmount = 1 - Math.exp(-this.cameraLookSmoothing * deltaTime);
+    const positionAmount = 1 - Math.exp(-this.cameraPositionSmoothing * safeDelta);
+    const lookAmount = 1 - Math.exp(-this.cameraLookSmoothing * safeDelta);
     this.camera.position.lerp(this.cameraTarget, positionAmount);
     this.cameraLookTarget.lerp(targetPosition, lookAmount);
     this.camera.lookAt(this.cameraLookTarget);
   }
 
   resize(width, height) {
-    const safeWidth = Math.max(1, width);
-    const safeHeight = Math.max(1, height);
+    const safeWidth = Math.max(1, Math.floor(Number.isFinite(width) ? width : window.innerWidth));
+    const safeHeight = Math.max(1, Math.floor(Number.isFinite(height) ? height : window.innerHeight));
     const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
     this.renderer.setPixelRatio(pixelRatio);
     this.renderer.setSize(safeWidth, safeHeight, false);
@@ -84,6 +92,24 @@ export class SceneSetup {
   }
 
   dispose() {
+    if (this._disposed) {
+      return;
+    }
+    this._disposed = true;
+    this.renderer.domElement.removeEventListener('webglcontextlost', this._onContextLost);
+    this.renderer.domElement.remove();
     this.renderer.dispose();
+  }
+
+  _handleContextLost(event) {
+    event.preventDefault();
+    const error = new Error('The WebGL rendering context was lost.');
+    if (this.onError) {
+      try {
+        this.onError(error, { phase: 'webgl-context' });
+      } catch {
+        return;
+      }
+    }
   }
 }

@@ -1,24 +1,28 @@
+import { GAME_CONFIG } from '../config/gameConfig.js';
+
 export class CampfireProcessor {
   constructor(zone, inventory, campfireMesh, options = {}) {
     this.zone = zone;
     this.inventory = inventory;
     this.campfireMesh = campfireMesh;
-    this.processingDuration = options.processingDuration || 1.0;
+    this.processingDuration = options.processingDuration ?? GAME_CONFIG.processingDuration;
     this.processingQueue = [];
     this.currentItem = null;
     this.processingTimer = 0;
     this.isProcessing = false;
-    this.onProcessingStart = options.onProcessingStart || null;
-    this.onProcessingComplete = options.onProcessingComplete || null;
+    this.onProcessingStart = typeof options.onProcessingStart === 'function' ? options.onProcessingStart : null;
+    this.onProcessingComplete = typeof options.onProcessingComplete === 'function' ? options.onProcessingComplete : null;
+    this.onError = typeof options.onError === 'function' ? options.onError : null;
     this._elapsed = 0;
   }
 
   update(deltaTime) {
-    this._elapsed += deltaTime;
+    const safeDelta = Math.max(0, deltaTime);
+    this._elapsed += safeDelta;
     this._animateFlame();
 
     if (this.isProcessing) {
-      this.processingTimer += deltaTime;
+      this.processingTimer += safeDelta;
       if (this.processingTimer >= this.processingDuration) {
         this._completeProcessing();
       }
@@ -48,7 +52,11 @@ export class CampfireProcessor {
     this.isProcessing = true;
     this.processingTimer = 0;
     if (this.onProcessingStart) {
-      this.onProcessingStart(item);
+      try {
+        this.onProcessingStart(item);
+      } catch (error) {
+        this.reportError(error, { phase: 'processing-start' });
+      }
     }
   }
 
@@ -57,9 +65,16 @@ export class CampfireProcessor {
     this.currentItem = null;
     this.isProcessing = false;
     this.processingTimer = 0;
+    if (!completedItem) {
+      return;
+    }
     this.inventory.add('cookedMeat');
     if (this.onProcessingComplete) {
-      this.onProcessingComplete(completedItem);
+      try {
+        this.onProcessingComplete(completedItem);
+      } catch (error) {
+        this.reportError(error, { phase: 'processing-complete' });
+      }
     }
   }
 
@@ -76,6 +91,23 @@ export class CampfireProcessor {
     if (innerFlame) {
       innerFlame.scale.set(1 + pulse * 0.1, 1 + secondaryPulse * 0.18, 1 + pulse * 0.1);
       innerFlame.rotation.y -= 0.04;
+    }
+  }
+
+  dispose() {
+    this.processingQueue.length = 0;
+    this.currentItem = null;
+    this.isProcessing = false;
+    this.processingTimer = 0;
+  }
+
+  reportError(error, context = {}) {
+    if (this.onError) {
+      try {
+        this.onError(error, context);
+      } catch {
+        return;
+      }
     }
   }
 }

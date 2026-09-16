@@ -1,15 +1,15 @@
 import * as THREE from 'three';
-
-const WORLD_UP = new THREE.Vector3(0, 1, 0);
+import { GAME_CONFIG } from '../config/gameConfig.js';
 
 export class PlayerController {
   constructor(player, camera, mapManager, options = {}) {
     this.player = player;
     this.camera = camera;
     this.mapManager = mapManager;
-    this.speed = options.speed || 6.2;
-    this.rotationSpeed = options.rotationSpeed || 11;
-    this.clickStopDistance = options.clickStopDistance || 0.28;
+    this.speed = options.speed ?? GAME_CONFIG.playerSpeed;
+    this.rotationSpeed = options.rotationSpeed ?? GAME_CONFIG.rotationSpeed;
+    this.clickStopDistance = options.clickStopDistance ?? GAME_CONFIG.clickStopDistance;
+    this.gamepadIndex = options.gamepadIndex ?? 0;
     this.keys = new Set();
     this.moveDirection = new THREE.Vector3();
     this.velocity = new THREE.Vector3();
@@ -18,7 +18,7 @@ export class PlayerController {
     this.isMoving = false;
     this.raycaster = new THREE.Raycaster();
     this.pointerNdc = new THREE.Vector2();
-    this.groundPlane = new THREE.Plane(WORLD_UP, 0);
+    this.groundPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
     this._forward = new THREE.Vector3();
     this._right = new THREE.Vector3();
     this._keyboardDirection = new THREE.Vector3();
@@ -59,7 +59,7 @@ export class PlayerController {
   }
 
   _onKeyDown(event) {
-    const key = event.key.toLowerCase();
+    const key = String(event.key || '').toLowerCase();
     if (this._isMovementKey(key)) {
       event.preventDefault();
       this.keys.add(key);
@@ -67,7 +67,7 @@ export class PlayerController {
   }
 
   _onKeyUp(event) {
-    const key = event.key.toLowerCase();
+    const key = String(event.key || '').toLowerCase();
     if (this._isMovementKey(key)) {
       event.preventDefault();
       this.keys.delete(key);
@@ -115,6 +115,15 @@ export class PlayerController {
       this._keyboardDirection.sub(this._right);
     }
 
+    const gamepad = navigator.getGamepads?.()[this.gamepadIndex];
+    if (gamepad) {
+      const axisX = Math.abs(gamepad.axes[0] || 0) > 0.18 ? gamepad.axes[0] : 0;
+      const axisY = Math.abs(gamepad.axes[1] || 0) > 0.18 ? gamepad.axes[1] : 0;
+      if (axisX || axisY) {
+        this._keyboardDirection.set(axisX, 0, axisY).normalize();
+      }
+    }
+
     if (this._keyboardDirection.lengthSq() > 0.0001) {
       this._keyboardDirection.normalize();
       this.clickActive = false;
@@ -151,9 +160,9 @@ export class PlayerController {
     this._right.setFromMatrixColumn(this.camera.matrixWorld, 0);
     this._right.y = 0;
     if (this._right.lengthSq() < 0.0001) {
-      this._right.crossVectors(this._forward, WORLD_UP).normalize();
+      this._forward.set(0, 0, 0);
     } else {
-      this._right.normalize();
+      this._right.crossVectors(this._forward, new THREE.Vector3(0, 1, 0)).normalize();
     }
   }
 
@@ -167,7 +176,7 @@ export class PlayerController {
 
     if (this.isMoving) {
       this._targetPosition.copy(this.player.position).add(this.moveDirection);
-      this._targetMatrix.lookAt(this.player.position, this._targetPosition, WORLD_UP);
+      this._targetMatrix.lookAt(this.player.position, this._targetPosition, new THREE.Vector3(0, 1, 0));
       this._targetQuaternion.setFromRotationMatrix(this._targetMatrix);
       const rotationAmount = 1 - Math.exp(-this.rotationSpeed * safeDelta);
       this.player.quaternion.slerp(this._targetQuaternion, rotationAmount);

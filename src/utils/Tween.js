@@ -3,17 +3,20 @@ import { easeInOutCubic } from './MathUtils.js';
 
 export class Tween {
   constructor(target, property, from, to, duration, options = {}) {
+    if (!target || typeof property !== 'string') {
+      throw new TypeError('Tween requires a target and property name.');
+    }
     this.target = target;
     this.property = property;
     this.from = from;
     this.to = to;
-    this.duration = Math.max(0.0001, duration);
-    this.delay = Math.max(0, options.delay || 0);
+    this.duration = Number.isFinite(duration) ? Math.max(0.0001, duration) : 0.0001;
+    this.delay = Number.isFinite(options.delay) ? Math.max(0, options.delay) : 0;
     this.elapsed = 0;
     this.isDone = false;
-    this.onUpdate = options.onUpdate || null;
-    this.onComplete = options.onComplete || null;
-    this.easing = options.easing || easeInOutCubic;
+    this.onUpdate = typeof options.onUpdate === 'function' ? options.onUpdate : null;
+    this.onComplete = typeof options.onComplete === 'function' ? options.onComplete : null;
+    this.easing = typeof options.easing === 'function' ? options.easing : easeInOutCubic;
   }
 
   update(deltaTime) {
@@ -22,11 +25,11 @@ export class Tween {
     }
 
     if (this.delay > 0) {
-      this.delay -= deltaTime;
+      this.delay -= Math.max(0, deltaTime);
       return false;
     }
 
-    this.elapsed += deltaTime;
+    this.elapsed += Math.max(0, deltaTime);
     const rawT = Math.min(this.elapsed / this.duration, 1);
     const easedT = this.easing(rawT);
 
@@ -66,24 +69,43 @@ export class Tween {
 }
 
 export class TweenManager {
-  constructor() {
+  constructor(options = {}) {
     this.tweens = [];
+    this.onError = typeof options.onError === 'function' ? options.onError : null;
   }
 
   add(tween) {
+    if (!tween || typeof tween.update !== 'function') {
+      throw new TypeError('TweenManager can only add tween-like objects.');
+    }
     this.tweens.push(tween);
     return tween;
   }
 
   update(deltaTime) {
     for (let index = this.tweens.length - 1; index >= 0; index -= 1) {
-      if (this.tweens[index].update(deltaTime)) {
+      try {
+        if (this.tweens[index].update(deltaTime)) {
+          this.tweens.splice(index, 1);
+        }
+      } catch (error) {
         this.tweens.splice(index, 1);
+        this.reportError(error, { phase: 'tween-update' });
       }
     }
   }
 
   clear() {
     this.tweens.length = 0;
+  }
+
+  reportError(error, context = {}) {
+    if (this.onError) {
+      try {
+        this.onError(error, context);
+      } catch {
+        return;
+      }
+    }
   }
 }

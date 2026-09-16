@@ -8,16 +8,38 @@
   </head>
   <body>
     <div id="game-root">
-      <div id="hud" aria-live="polite">
+      <div id="hud" aria-label="Game status">
         <div class="hud-panel cash-panel">
           <span class="hud-label">Cash</span>
-          <span class="cash-value">$<span id="cash-value">0</span></span>
+          <span class="cash-value">$<span id="cash-value" aria-live="polite">0</span></span>
+        </div>
+        <div class="hud-panel inventory-panel">
+          <span class="hud-label">Inventory</span>
+          <div id="inventory-value" class="inventory-value" aria-live="polite">
+            <span class="inventory-empty">Empty</span>
+          </div>
+        </div>
+        <div class="hud-controls" aria-label="Game controls">
+          <button id="pause-button" class="control-button" type="button" aria-pressed="false">Pause</button>
+          <button id="mute-button" class="control-button" type="button" aria-pressed="false">Mute</button>
+          <button id="snow-button" class="control-button" type="button" aria-pressed="true">Snow: on</button>
+        </div>
+        <div id="status-bar" role="status" aria-live="polite">
+          <span id="status-value">Collect resources, cook meat, and reach the market.</span>
         </div>
         <div class="hud-panel hint-panel">
           <span>WASD / Arrows / Tap to move</span>
         </div>
       </div>
       <div id="world-overlays"></div>
+      <div id="toast" role="status" aria-live="polite" hidden></div>
+      <div id="fatal-error" role="alert" hidden>
+        <div class="fatal-error-card">
+          <strong>Game interrupted</strong>
+          <span id="fatal-error-message">The game stopped unexpectedly.</span>
+          <button id="fatal-error-retry" type="button">Reload</button>
+        </div>
+      </div>
     </div>
     <script type="module" src="/src/main.js"></script>
   </body>

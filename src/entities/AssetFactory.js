@@ -25,6 +25,12 @@ export class AssetFactory {
     this.sharedGeometries.set('rawMeat', new THREE.BoxGeometry(0.36, 0.1, 0.24));
     this.sharedGeometries.set('cookedMeat', new THREE.BoxGeometry(0.34, 0.12, 0.22));
     this.sharedGeometries.set('cash', new THREE.BoxGeometry(0.28, 0.18, 0.2));
+    this.sharedGeometries.set('fish', new THREE.CapsuleGeometry(0.12, 0.28, 4, 8));
+    this.sharedGeometries.set('fishingRod', new THREE.CylinderGeometry(0.025, 0.035, 1.8, 6));
+    this.sharedGeometries.set('fishingReel', new THREE.TorusGeometry(0.1, 0.035, 6, 12));
+    this.sharedGeometries.set('dockPlank', new THREE.BoxGeometry(1.1, 0.08, 0.32));
+    this.sharedGeometries.set('dockPost', new THREE.CylinderGeometry(0.07, 0.08, 0.72, 6));
+    this.sharedGeometries.set('bobber', new THREE.SphereGeometry(0.12, 8, 6));
     this.sharedGeometries.set('fencePost', new THREE.CylinderGeometry(0.08, 0.1, 1.16, 7));
     this.sharedGeometries.set('log', new THREE.CylinderGeometry(0.08, 0.09, 0.68, 7));
     this.sharedGeometries.set('stone', new THREE.DodecahedronGeometry(0.12, 0));
@@ -52,8 +58,13 @@ export class AssetFactory {
     this.sharedMaterials.set('rawMeat', new THREE.MeshStandardMaterial({ color: 0xd64545, roughness: 0.62 }));
     this.sharedMaterials.set('cookedMeat', new THREE.MeshStandardMaterial({ color: 0x9a5425, roughness: 0.72 }));
     this.sharedMaterials.set('cash', new THREE.MeshStandardMaterial({ color: 0x37d66b, roughness: 0.48, emissive: 0x0d4d24, emissiveIntensity: 0.18 }));
+    this.sharedMaterials.set('fish', new THREE.MeshStandardMaterial({ color: 0x55b8ff, roughness: 0.48, emissive: 0x103f63, emissiveIntensity: 0.2 }));
     this.sharedMaterials.set('fence', new THREE.MeshStandardMaterial({ color: 0x9b6b3a, roughness: 0.9 }));
     this.sharedMaterials.set('stone', new THREE.MeshStandardMaterial({ color: 0x9aa6b1, roughness: 0.95 }));
+    this.sharedMaterials.set('fishingRod', new THREE.MeshStandardMaterial({ color: 0x5b3a22, roughness: 0.82 }));
+    this.sharedMaterials.set('fishingReel', new THREE.MeshStandardMaterial({ color: 0xd8dee6, roughness: 0.35, metalness: 0.35 }));
+    this.sharedMaterials.set('dock', new THREE.MeshStandardMaterial({ color: 0x76502e, roughness: 0.9 }));
+    this.sharedMaterials.set('bobber', new THREE.MeshStandardMaterial({ color: 0xff5252, roughness: 0.45 }));
     this.sharedMaterials.set('flameOuter', new THREE.MeshBasicMaterial({ color: 0xff6a1f, transparent: true, opacity: 0.82 }));
     this.sharedMaterials.set('flameInner', new THREE.MeshBasicMaterial({ color: 0xffd15a, transparent: true, opacity: 0.95 }));
     this.sharedMaterials.set('pond', new THREE.MeshStandardMaterial({ color: 0x3e8bd4, roughness: 0.18, metalness: 0.18, transparent: true, opacity: 0.88 }));
@@ -234,6 +245,61 @@ export class AssetFactory {
     return mesh;
   }
 
+  createFish() {
+    const mesh = new THREE.Mesh(this._geometry('fish'), this._material('fish'));
+    mesh.rotation.z = Math.PI / 2;
+    mesh.position.y = 0.12;
+    mesh.castShadow = true;
+    mesh.receiveShadow = true;
+    mesh.userData.resourceType = 'fish';
+    mesh.userData.resourceHeight = 0.2;
+    return mesh;
+  }
+
+  createFishingSpot() {
+    const spot = new THREE.Group();
+    spot.name = 'FishingSpot';
+
+    for (let index = -1; index <= 1; index += 1) {
+      const plank = new THREE.Mesh(this._geometry('dockPlank'), this._material('dock'));
+      plank.position.set(0, 0.12, index * 0.34);
+      plank.castShadow = true;
+      plank.receiveShadow = true;
+      spot.add(plank);
+    }
+
+    for (const x of [-0.46, 0.46]) {
+      for (const z of [-0.56, 0.56]) {
+        const post = new THREE.Mesh(this._geometry('dockPost'), this._material('dock'));
+        post.position.set(x, 0.36, z);
+        post.castShadow = true;
+        post.receiveShadow = true;
+        spot.add(post);
+      }
+    }
+
+    const rod = new THREE.Mesh(this._geometry('fishingRod'), this._material('fishingRod'));
+    rod.position.set(0.42, 0.72, -0.3);
+    rod.rotation.z = -0.72;
+    rod.rotation.y = 0.25;
+    rod.castShadow = true;
+    spot.add(rod);
+
+    const reel = new THREE.Mesh(this._geometry('fishingReel'), this._material('fishingReel'));
+    reel.position.set(0.3, 0.52, -0.18);
+    reel.rotation.y = Math.PI / 2;
+    reel.castShadow = true;
+    spot.add(reel);
+
+    const bobber = new THREE.Mesh(this._geometry('bobber'), this._material('bobber'));
+    bobber.position.set(0.95, 0.18, -0.86);
+    bobber.castShadow = true;
+    spot.add(bobber);
+    spot.userData.bobber = bobber;
+
+    return spot;
+  }
+
   createFencePost() {
     const mesh = new THREE.Mesh(this._geometry('fencePost'), this._material('fence'));
     mesh.position.y = 0.58;
@@ -344,6 +410,8 @@ export class AssetFactory {
         return this.createCookedMeat();
       case 'cash':
         return this.createCash();
+      case 'fish':
+        return this.createFish();
       default:
         return null;
     }

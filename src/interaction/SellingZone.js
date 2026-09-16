@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { RESOURCE_PRICES, GAME_CONFIG } from '../config/gameConfig.js';
 import { Tween } from '../utils/Tween.js';
 
 export class SellingZone {
@@ -10,18 +11,21 @@ export class SellingZone {
     this.scene = scene;
     this.tweenManager = tweenManager;
     this.getPlayerPosition = getPlayerPosition;
-    this.prices = options.prices || {
-      cookedMeat: 10,
-      wood: 5,
-    };
-    this.sellDelay = options.sellDelay || 0.2;
+    this.prices = options.prices ?? RESOURCE_PRICES;
+    this.sellDelay = options.sellDelay ?? GAME_CONFIG.sellDelay;
     this.isSelling = false;
     this.sellTimer = 0;
     this.cashAnimations = [];
-    this.onSale = options.onSale || null;
+    this.onSale = typeof options.onSale === 'function' ? options.onSale : null;
+    this.onError = typeof options.onError === 'function' ? options.onError : null;
+    this._disposed = false;
   }
 
   update(deltaTime) {
+    if (this._disposed) {
+      return;
+    }
+    const safeDelta = Math.max(0, deltaTime);
     if (!this.zone.isPlayerInside) {
       this.isSelling = false;
       this.sellTimer = 0;
@@ -29,7 +33,7 @@ export class SellingZone {
     }
 
     if (this.isSelling) {
-      this.sellTimer += deltaTime;
+      this.sellTimer += safeDelta;
       if (this.sellTimer >= this.sellDelay) {
         this.isSelling = false;
         this.sellTimer = 0;
@@ -57,11 +61,18 @@ export class SellingZone {
     this.sellTimer = 0;
 
     if (this.onSale) {
-      this.onSale(selectedItem, price);
+      try {
+        this.onSale(selectedItem, price);
+      } catch (error) {
+        this.reportError(error, { phase: 'sale-callback' });
+      }
     }
   }
 
   _spawnCashAnimation(zonePosition) {
+    if (this._disposed) {
+      return;
+    }
     const source = this.assetFactory.createCash();
     const cashMesh = source.clone();
     cashMesh.geometry = source.geometry.clone();
@@ -86,6 +97,9 @@ export class SellingZone {
       {
         easing: (t) => 1 - (1 - t) ** 3,
         onComplete: () => {
+          if (this._disposed) {
+            return;
+          }
           this.scene.remove(cashMesh);
           cashMesh.geometry.dispose();
           cashMesh.material.dispose();
@@ -105,11 +119,25 @@ export class SellingZone {
   }
 
   dispose() {
+    if (this._disposed) {
+      return;
+    }
+    this._disposed = true;
     for (const cashMesh of this.cashAnimations) {
       this.scene.remove(cashMesh);
       cashMesh.geometry.dispose();
       cashMesh.material.dispose();
     }
     this.cashAnimations.length = 0;
+  }
+
+  reportError(error, context = {}) {
+    if (this.onError) {
+      try {
+        this.onError(error, context);
+      } catch {
+        return;
+      }
+    }
   }
 }
