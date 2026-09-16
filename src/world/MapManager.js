@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { TriggerZone } from '../interaction/TriggerZone.js';
+import { FishingSpot } from '../interaction/FishingSpot.js';
 import { Tween } from '../utils/Tween.js';
 import { easeInOutCubic, randomRange } from '../utils/MathUtils.js';
 

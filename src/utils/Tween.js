@@ -3,8 +3,8 @@ import { easeInOutCubic } from './MathUtils.js';
 
 export class Tween {
   constructor(target, property, from, to, duration, options = {}) {
-    if (!target || typeof property !== 'string') {
-      throw new TypeError('Tween requires a target and property name.');
+    if (!target || typeof property !== 'string' || !(property in target)) {
+      throw new TypeError('Tween requires a target property.');
     }
     this.target = target;
     this.property = property;

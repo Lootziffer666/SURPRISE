@@ -9,9 +9,10 @@ export class TriggerZone {
     this.isPlayerInside = false;
     this.debugEnabled = Boolean(options.debug);
     this.debugColor = options.debugColor || 0xffcc44;
-    this.onEnter = options.onEnter || null;
-    this.onStay = options.onStay || null;
-    this.onExit = options.onExit || null;
+    this.onEnter = typeof options.onEnter === 'function' ? options.onEnter : null;
+    this.onStay = typeof options.onStay === 'function' ? options.onStay : null;
+    this.onExit = typeof options.onExit === 'function' ? options.onExit : null;
+    this.onError = typeof options.onError === 'function' ? options.onError : null;
     this.debugHelper = null;
     this._size = new THREE.Vector3();
     this.updateBounds();
@@ -39,9 +40,7 @@ export class TriggerZone {
     this.isActive = Boolean(active);
     if (!this.isActive && this.isPlayerInside) {
       this.isPlayerInside = false;
-      if (this.onExit) {
-        this.onExit(this);
-      }
+      this._notify(this.onExit);
     }
   }
 
@@ -53,9 +52,7 @@ export class TriggerZone {
     if (!this.isActive) {
       if (this.isPlayerInside) {
         this.isPlayerInside = false;
-        if (this.onExit) {
-          this.onExit(this);
-        }
+        this._notify(this.onExit);
       }
       return false;
     }
@@ -64,14 +61,14 @@ export class TriggerZone {
     const nowInside = playerBox.intersectsBox(this.box);
     this.isPlayerInside = nowInside;
 
-    if (nowInside && !wasInside && this.onEnter) {
-      this.onEnter(this);
+    if (nowInside && !wasInside) {
+      this._notify(this.onEnter);
     }
-    if (nowInside && this.onStay) {
-      this.onStay(this);
+    if (nowInside) {
+      this._notify(this.onStay);
     }
-    if (!nowInside && wasInside && this.onExit) {
-      this.onExit(this);
+    if (!nowInside && wasInside) {
+      this._notify(this.onExit);
     }
 
     return nowInside;
@@ -93,5 +90,26 @@ export class TriggerZone {
       scene.remove(this.debugHelper);
     }
     this.debugHelper = null;
+  }
+
+  _notify(callback) {
+    if (!callback) {
+      return;
+    }
+    try {
+      callback(this);
+    } catch (error) {
+      this._reportError(error, { phase: 'trigger-callback' });
+    }
+  }
+
+  _reportError(error, context = {}) {
+    if (this.onError) {
+      try {
+        this.onError(error, context);
+      } catch {
+        return;
+      }
+    }
   }
 }

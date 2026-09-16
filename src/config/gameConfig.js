@@ -10,6 +10,7 @@ export const GAME_CONFIG = Object.freeze({
   fishingCatchCooldown: 1.2,
   fishingCatchChance: 0.85,
   snowflakeCount: 240,
+  startingResourceCount: 36,
 });
 
 export const RESOURCE_PRICES = Object.freeze({

@@ -17,6 +17,7 @@ export class SceneSetup {
     this.renderer.toneMappingExposure = 1.05;
     this.renderer.domElement.setAttribute('role', 'img');
     this.renderer.domElement.setAttribute('aria-label', 'Snow Resource Run game scene');
+    this.renderer.domElement.setAttribute('tabindex', '0');
     this._onContextLost = this._handleContextLost.bind(this);
     this.renderer.domElement.addEventListener('webglcontextlost', this._onContextLost);
     const root = document.getElementById('game-root') || document.body;

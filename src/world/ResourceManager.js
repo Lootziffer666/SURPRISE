@@ -1,5 +1,4 @@
-import * as THREE from 'three';
-import { GAME_CONFIG } from '../config/gameConfig.js';
+import { GAME_CONFIG, STARTING_RESOURCE_TYPES } from '../config/gameConfig.js';
 
 export class ResourceManager {
   constructor(scene, assetFactory, inventory, mapManager, options = {}) {
@@ -16,9 +15,8 @@ export class ResourceManager {
   }
 
   spawnStartingResources() {
-    const types = ['wood', 'wood', 'wood', 'rawMeat', 'rawMeat', 'cash'];
-    for (let index = 0; index < 36; index += 1) {
-      const type = types[index % types.length];
+    for (let index = 0; index < GAME_CONFIG.startingResourceCount; index += 1) {
+      const type = STARTING_RESOURCE_TYPES[index % STARTING_RESOURCE_TYPES.length];
       const x = (Math.random() - 0.5) * 58;
       const z = (Math.random() - 0.5) * 58;
       this.spawnResource(type, x, z, this.scene);
@@ -26,7 +24,7 @@ export class ResourceManager {
   }
 
   spawnResource(type, x, z, parent = this.scene) {
-    if (!parent) {
+    if (this._disposed || !parent) {
       return null;
     }
     const mesh = this.assetFactory.createResourceMesh(type);
@@ -43,9 +41,6 @@ export class ResourceManager {
   }
 
   update(playerPosition) {
-    if (this._disposed) {
-      return;
-    }
     for (let index = this.collectibles.length - 1; index >= 0; index -= 1) {
       const resource = this.collectibles[index];
       if (!resource || resource.userData.collected) {
@@ -73,13 +68,7 @@ export class ResourceManager {
       this.collectibles.splice(index, 1);
     }
     this.inventory.add(resource.userData.resourceType);
-    if (this.onCollect) {
-      try {
-        this.onCollect(resource.userData.resourceType);
-      } catch (error) {
-        this.reportError(error, { phase: 'collect-callback' });
-      }
-    }
+    this._notify(this.onCollect, resource.userData.resourceType, 'collect-callback');
     return true;
   }
 
@@ -104,6 +93,17 @@ export class ResourceManager {
       }
     }
     this.collectibles.length = 0;
+  }
+
+  _notify(callback, value, phase) {
+    if (!callback) {
+      return;
+    }
+    try {
+      callback(value);
+    } catch (error) {
+      this.reportError(error, { phase });
+    }
   }
 
   reportError(error, context = {}) {

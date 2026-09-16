@@ -51,13 +51,7 @@ export class CampfireProcessor {
     this.currentItem = item;
     this.isProcessing = true;
     this.processingTimer = 0;
-    if (this.onProcessingStart) {
-      try {
-        this.onProcessingStart(item);
-      } catch (error) {
-        this.reportError(error, { phase: 'processing-start' });
-      }
-    }
+    this._notify(this.onProcessingStart, item, 'processing-start');
   }
 
   _completeProcessing() {
@@ -69,13 +63,7 @@ export class CampfireProcessor {
       return;
     }
     this.inventory.add('cookedMeat');
-    if (this.onProcessingComplete) {
-      try {
-        this.onProcessingComplete(completedItem);
-      } catch (error) {
-        this.reportError(error, { phase: 'processing-complete' });
-      }
-    }
+    this._notify(this.onProcessingComplete, completedItem, 'processing-complete');
   }
 
   _animateFlame() {
@@ -99,6 +87,17 @@ export class CampfireProcessor {
     this.currentItem = null;
     this.isProcessing = false;
     this.processingTimer = 0;
+  }
+
+  _notify(callback, value, phase) {
+    if (!callback) {
+      return;
+    }
+    try {
+      callback(value);
+    } catch (error) {
+      this.reportError(error, { phase });
+    }
   }
 
   reportError(error, context = {}) {

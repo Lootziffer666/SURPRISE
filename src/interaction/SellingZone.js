@@ -59,14 +59,7 @@ export class SellingZone {
     this._spawnCashAnimation(this.zone.position);
     this.isSelling = true;
     this.sellTimer = 0;
-
-    if (this.onSale) {
-      try {
-        this.onSale(selectedItem, price);
-      } catch (error) {
-        this.reportError(error, { phase: 'sale-callback' });
-      }
-    }
+    this._notify(this.onSale, selectedItem, price, 'sale-callback');
   }
 
   _spawnCashAnimation(zonePosition) {
@@ -129,6 +122,17 @@ export class SellingZone {
       cashMesh.material.dispose();
     }
     this.cashAnimations.length = 0;
+  }
+
+  _notify(callback, item, price, phase) {
+    if (!callback) {
+      return;
+    }
+    try {
+      callback(item, price);
+    } catch (error) {
+      this.reportError(error, { phase });
+    }
   }
 
   reportError(error, context = {}) {
