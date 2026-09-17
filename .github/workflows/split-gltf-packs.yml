@@ -1,0 +1,65 @@
+name: Split GLB packs
+
+on:
+  push:
+    paths:
+      - '.github/workflows/split-gltf-packs.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  split:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install glTF tooling
+        run: >-
+          npm install --no-save --package-lock=false
+          @gltf-transform/core@4.5.0
+          @gltf-transform/extensions@4.5.0
+          @gltf-transform/functions@4.5.0
+          draco3dgltf meshoptimizer
+
+      - name: Split asset packs
+        run: node .github/scripts/split-gltf-packs.mjs
+
+      - name: Validate generated GLBs
+        shell: bash
+        run: |
+          set -euo pipefail
+          count=0
+          while IFS= read -r -d '' file; do
+            echo "Validating $file"
+            npx -y @gltf-transform/cli@4.5.0 validate "$file" --limit 20
+            count=$((count + 1))
+          done < <(find assets/split -type f -name '*.glb' -print0)
+          if [ "$count" -eq 0 ]; then
+            echo 'No generated GLBs found.' >&2
+            exit 1
+          fi
+          echo "Validated $count generated GLBs."
+
+      - name: Commit split assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add assets/split
+          if git diff --cached --quiet; then
+            echo 'No split output changes to commit.' >&2
+            exit 1
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'Split bundled GLB asset packs'
+          git push
