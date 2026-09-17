@@ -1,0 +1,29 @@
+{
+  "testedAt": "2026-09-17T02:08:53.603Z",
+  "states": {
+    "00-title-hero.png": "Initial hero view / starting outpost",
+    "01-gameplay.png": "Movement followed by actual ResourceManager collection of wood and raw meat",
+    "02-ui-menu.png": "Paused control state / HUD controls",
+    "03-special-mechanic.png": "Fishing-area expansion unlocked through the real purchase path and entered"
+  },
+  "state": {
+    "title": "Snow Resource Run",
+    "cash": 0,
+    "expansionUnlocked": true,
+    "inventory": [
+      "rawMeat",
+      "wood",
+      "rawMeat"
+    ],
+    "status": "The fishing area is open. Follow the path east."
+  },
+  "consoleErrors": [],
+  "consoleWarnings": [
+    "The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. https://developer.chrome.com/blog/autoplay/#web_audio",
+    "The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. https://developer.chrome.com/blog/autoplay/#web_audio",
+    "[.WebGL-0xe3400d0b800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+    "[.WebGL-0xe3400d0b800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+    "[.WebGL-0xe3400d0b800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+    "[.WebGL-0xe3400d0b800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)"
+  ]
+}
