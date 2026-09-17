@@ -24,6 +24,7 @@ export class GameManager {
     this._userPaused = false;
     this.lastError = null;
     this.handleError = this.handleError.bind(this);
+    this.animate = this.animate.bind(this);
 
     try {
       this.sceneSetup = new SceneSetup({ onError: this.handleError });
