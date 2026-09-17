@@ -1,0 +1,21 @@
+{
+  "testedAt": "2026-09-17T01:59:12.238Z",
+  "url": "http://127.0.0.1:4173/",
+  "title": "Snow Resource Run",
+  "canvasCount": 1,
+  "width": 1365,
+  "height": 768,
+  "webgl": true,
+  "interactions": [
+    "W key",
+    "click"
+  ],
+  "consoleErrors": [],
+  "consoleWarnings": [
+    "[.WebGL-0x12f400c44e00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+    "[.WebGL-0x12f400c44e00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+    "[.WebGL-0x12f400c44e00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+    "[.WebGL-0x12f400c44e00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)"
+  ],
+  "status": "rendered-without-runtime-errors"
+}
