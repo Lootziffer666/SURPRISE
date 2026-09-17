@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - '.github/workflows/split-gltf-packs.yml'
+      - '.github/scripts/split-gltf-packs.mjs'
   workflow_dispatch:
 
 permissions:
@@ -29,7 +30,24 @@ jobs:
           @gltf-transform/core@4.5.0
           @gltf-transform/extensions@4.5.0
           @gltf-transform/functions@4.5.0
+          @gltf-transform/cli@4.5.0
           draco3dgltf meshoptimizer
+
+      - name: Inspect candidate packs
+        shell: bash
+        run: |
+          set -euo pipefail
+          for file in \
+            assets/low_poly_market_stall_pack.glb \
+            assets/low_poly_medieval_houses_pack.glb \
+            assets/low_poly_medieval_village_props.glb \
+            assets/low_poly_winter_medieval_castle_and_town_pack.glb \
+            assets/lowpoly_fish_pack.glb \
+            assets/lowpoly_trees_-_free_model_of_the_month.glb
+          do
+            echo "===== $file ====="
+            npx gltf-transform inspect "$file" --format md
+          done
 
       - name: Split asset packs
         run: node .github/scripts/split-gltf-packs.mjs
@@ -41,7 +59,7 @@ jobs:
           count=0
           while IFS= read -r -d '' file; do
             echo "Validating $file"
-            npx -y @gltf-transform/cli@4.5.0 validate "$file" --limit 20
+            npx gltf-transform validate "$file" --limit 20
             count=$((count + 1))
           done < <(find assets/split -type f -name '*.glb' -print0)
           if [ "$count" -eq 0 ]; then
