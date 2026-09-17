@@ -69,14 +69,18 @@ jobs:
           await page.waitForTimeout(900);
           await page.keyboard.up('KeyD');
           await page.keyboard.up('KeyW');
-          await page.waitForTimeout(450);
-          await page.evaluate(() => {
+          await page.waitForTimeout(350);
+          const collected = await page.evaluate(() => {
             const g = window.__snowResourceGame;
-            g.inventory.add('wood');
-            g.inventory.add('rawMeat');
-            g.uiManager.showStatus('Resources collected — head to the campfire or market.', 'success');
+            const chosen = [];
+            for (const wanted of ['wood', 'rawMeat']) {
+              const resource = g.resourceManager.collectibles.find(r => !r.userData.collected && r.userData.resourceType === wanted);
+              if (resource && g.resourceManager.collectResource(resource)) chosen.push(wanted);
+            }
+            return chosen;
           });
-          await page.waitForTimeout(250);
+          if (collected.length < 2) throw new Error(`Could not collect representative resources: ${collected.join(',')}`);
+          await page.waitForTimeout(300);
           await page.screenshot({ path: 'docs/visuals/01-gameplay.png' });
 
           await page.click('#pause-button');
@@ -112,9 +116,9 @@ jobs:
             testedAt: new Date().toISOString(),
             states: {
               '00-title-hero.png': 'Initial hero view / starting outpost',
-              '01-gameplay.png': 'Movement plus visible resource stack and gameplay HUD',
+              '01-gameplay.png': 'Movement followed by actual ResourceManager collection of wood and raw meat',
               '02-ui-menu.png': 'Paused control state / HUD controls',
-              '03-special-mechanic.png': 'Fishing-area expansion unlocked and entered'
+              '03-special-mechanic.png': 'Fishing-area expansion unlocked through the real purchase path and entered'
             },
             state,
             consoleErrors: errors,
@@ -157,7 +161,6 @@ jobs:
       - name: Commit visual package
         run: |
           set -euo pipefail
-          git checkout -- src/main.js 2>/dev/null || true
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add docs/visuals
