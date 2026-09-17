@@ -6,6 +6,9 @@ on:
       - 'kilo/elegant-laser-keo'
     paths:
       - '.github/workflows/runtime-screenshots.yml'
+      - 'src/**'
+      - 'index.html'
+      - 'package.json'
   workflow_dispatch:
 
 permissions:
