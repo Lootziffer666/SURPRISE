@@ -35,6 +35,16 @@ function slug(value, fallback) {
   return cleaned || fallback;
 }
 
+function printNodeTree(node, depth = 0) {
+  const mesh = node.getMesh();
+  const skin = node.getSkin();
+  const label = node.getName() || '(unnamed)';
+  const meshLabel = mesh ? ` mesh=${mesh.getName() || '(unnamed)'}` : '';
+  const skinLabel = skin ? ` skin=${skin.getName() || '(unnamed)'}` : '';
+  console.log(`${'  '.repeat(depth)}- ${label}${meshLabel}${skinLabel} children=${node.listChildren().length}`);
+  for (const child of node.listChildren()) printNodeTree(child, depth + 1);
+}
+
 function chooseNodeRoots(scene) {
   const roots = scene.listChildren();
   if (roots.length !== 1) return roots;
@@ -120,6 +130,15 @@ async function splitPack(inputPath) {
   };
   await fs.writeFile(path.join(outputDir, 'manifest.json'), `${JSON.stringify(manifest, null, 2)}\n`);
   return manifest;
+}
+
+for (const target of TARGETS) {
+  const source = await io.read(target);
+  console.log(`\n=== NODE TREE ${target} ===`);
+  for (const scene of source.getRoot().listScenes()) {
+    console.log(`SCENE ${scene.getName() || '(unnamed)'}`);
+    for (const child of scene.listChildren()) printNodeTree(child);
+  }
 }
 
 const manifests = [];
