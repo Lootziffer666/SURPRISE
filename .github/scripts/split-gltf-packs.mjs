@@ -45,6 +45,19 @@ function printNodeTree(node, depth = 0) {
   for (const child of node.listChildren()) printNodeTree(child, depth + 1);
 }
 
+function hasColliderMesh(node) {
+  let collider = false;
+  node.traverse((entry) => {
+    const meshName = entry.getMesh()?.getName() || '';
+    if (meshName.includes('COLLIDER')) collider = true;
+  });
+  return collider;
+}
+
+function findNode(root, name) {
+  return root.listNodes().find((node) => node.getName() === name) || null;
+}
+
 function chooseNodeRoots(scene) {
   const roots = scene.listChildren();
   if (roots.length !== 1) return roots;
@@ -138,6 +151,16 @@ for (const target of TARGETS) {
   for (const scene of source.getRoot().listScenes()) {
     console.log(`SCENE ${scene.getName() || '(unnamed)'}`);
     for (const child of scene.listChildren()) printNodeTree(child);
+  }
+
+  if (target.endsWith('low_poly_medieval_houses_pack.glb')) {
+    const rootNode = findNode(source.getRoot(), 'RootNode');
+    if (!rootNode) throw new Error('House pack RootNode not found.');
+    console.log('\n=== HOUSE WORLD POSITIONS ===');
+    for (const child of rootNode.listChildren()) {
+      const p = child.getWorldTranslation();
+      console.log(`${child.getName()} collider=${hasColliderMesh(child)} world=${p.map((value) => value.toFixed(5)).join(',')}`);
+    }
   }
 }
 
