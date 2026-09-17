@@ -1,0 +1,39 @@
+{
+  "source": "assets/lowpoly_fish_pack.glb",
+  "count": 3,
+  "items": [
+    {
+      "name": "fish_1",
+      "file": "assets/split/lowpoly_fish_pack/fish_1.glb",
+      "keptNodes": [
+        "fish_1"
+      ],
+      "bytes": 566480,
+      "meshes": 1,
+      "visibleMeshes": 1,
+      "colliderMeshes": 0
+    },
+    {
+      "name": "fish_2",
+      "file": "assets/split/lowpoly_fish_pack/fish_2.glb",
+      "keptNodes": [
+        "fish_2"
+      ],
+      "bytes": 1391312,
+      "meshes": 1,
+      "visibleMeshes": 1,
+      "colliderMeshes": 0
+    },
+    {
+      "name": "fish_3",
+      "file": "assets/split/lowpoly_fish_pack/fish_3.glb",
+      "keptNodes": [
+        "fish_3"
+      ],
+      "bytes": 994976,
+      "meshes": 1,
+      "visibleMeshes": 1,
+      "colliderMeshes": 0
+    }
+  ]
+}

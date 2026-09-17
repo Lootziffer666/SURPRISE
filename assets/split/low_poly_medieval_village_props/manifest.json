@@ -1,0 +1,270 @@
+{
+  "source": "assets/low_poly_medieval_village_props.glb",
+  "count": 22,
+  "items": [
+    {
+      "name": "item_01",
+      "file": "assets/split/low_poly_medieval_village_props/item_01.glb",
+      "keptNodes": [
+        "Item1",
+        "Item1_Collider"
+      ],
+      "bytes": 69672,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "item_02",
+      "file": "assets/split/low_poly_medieval_village_props/item_02.glb",
+      "keptNodes": [
+        "Item2",
+        "Item2_Collider"
+      ],
+      "bytes": 23816,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "item_03",
+      "file": "assets/split/low_poly_medieval_village_props/item_03.glb",
+      "keptNodes": [
+        "Item3",
+        "Item3_Collider"
+      ],
+      "bytes": 18296,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "item_04",
+      "file": "assets/split/low_poly_medieval_village_props/item_04.glb",
+      "keptNodes": [
+        "Item4",
+        "Item4_Collider"
+      ],
+      "bytes": 28424,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "item_05",
+      "file": "assets/split/low_poly_medieval_village_props/item_05.glb",
+      "keptNodes": [
+        "Item5",
+        "Item5_Collider"
+      ],
+      "bytes": 23312,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "item_06",
+      "file": "assets/split/low_poly_medieval_village_props/item_06.glb",
+      "keptNodes": [
+        "Item6",
+        "Item6_Collider"
+      ],
+      "bytes": 26140,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "item_07",
+      "file": "assets/split/low_poly_medieval_village_props/item_07.glb",
+      "keptNodes": [
+        "Item7",
+        "Item7_Collider"
+      ],
+      "bytes": 25980,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "item_08",
+      "file": "assets/split/low_poly_medieval_village_props/item_08.glb",
+      "keptNodes": [
+        "Item8",
+        "Item8_Collider"
+      ],
+      "bytes": 30100,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "item_09",
+      "file": "assets/split/low_poly_medieval_village_props/item_09.glb",
+      "keptNodes": [
+        "Item9",
+        "Item9_Collider"
+      ],
+      "bytes": 49056,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "item_10",
+      "file": "assets/split/low_poly_medieval_village_props/item_10.glb",
+      "keptNodes": [
+        "Item10",
+        "Item10_Collider"
+      ],
+      "bytes": 55516,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "item_11",
+      "file": "assets/split/low_poly_medieval_village_props/item_11.glb",
+      "keptNodes": [
+        "Item11",
+        "Item11_Collider"
+      ],
+      "bytes": 72528,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "item_12",
+      "file": "assets/split/low_poly_medieval_village_props/item_12.glb",
+      "keptNodes": [
+        "Item12",
+        "Item12_Collider"
+      ],
+      "bytes": 130736,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "item_13",
+      "file": "assets/split/low_poly_medieval_village_props/item_13.glb",
+      "keptNodes": [
+        "Item13",
+        "Item13_Collider"
+      ],
+      "bytes": 39712,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "item_14",
+      "file": "assets/split/low_poly_medieval_village_props/item_14.glb",
+      "keptNodes": [
+        "Item14",
+        "Item14_Collider"
+      ],
+      "bytes": 49924,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "item_15",
+      "file": "assets/split/low_poly_medieval_village_props/item_15.glb",
+      "keptNodes": [
+        "Item15",
+        "Item15_Collider"
+      ],
+      "bytes": 70928,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "item_16",
+      "file": "assets/split/low_poly_medieval_village_props/item_16.glb",
+      "keptNodes": [
+        "Item16",
+        "Item16_Collider"
+      ],
+      "bytes": 220112,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "item_17",
+      "file": "assets/split/low_poly_medieval_village_props/item_17.glb",
+      "keptNodes": [
+        "Item17",
+        "Item17_Collider"
+      ],
+      "bytes": 135800,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "item_18",
+      "file": "assets/split/low_poly_medieval_village_props/item_18.glb",
+      "keptNodes": [
+        "Item18",
+        "Item18_Collider"
+      ],
+      "bytes": 103376,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "item_19",
+      "file": "assets/split/low_poly_medieval_village_props/item_19.glb",
+      "keptNodes": [
+        "Item19",
+        "Item19_Collider"
+      ],
+      "bytes": 129060,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "item_20",
+      "file": "assets/split/low_poly_medieval_village_props/item_20.glb",
+      "keptNodes": [
+        "Item20",
+        "Item20_Collider"
+      ],
+      "bytes": 75528,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "item_21",
+      "file": "assets/split/low_poly_medieval_village_props/item_21.glb",
+      "keptNodes": [
+        "Item21",
+        "Item21_Collider"
+      ],
+      "bytes": 48172,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "item_22",
+      "file": "assets/split/low_poly_medieval_village_props/item_22.glb",
+      "keptNodes": [
+        "Item22",
+        "Item22_Collider"
+      ],
+      "bytes": 56736,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    }
+  ]
+}

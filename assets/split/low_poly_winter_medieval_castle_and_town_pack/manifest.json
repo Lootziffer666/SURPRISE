@@ -1,0 +1,606 @@
+{
+  "source": "assets/low_poly_winter_medieval_castle_and_town_pack.glb",
+  "count": 50,
+  "items": [
+    {
+      "name": "tower2",
+      "file": "assets/split/low_poly_winter_medieval_castle_and_town_pack/tower2.glb",
+      "keptNodes": [
+        "Tower2",
+        "Tower2_Collider"
+      ],
+      "bytes": 147148,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "tower1",
+      "file": "assets/split/low_poly_winter_medieval_castle_and_town_pack/tower1.glb",
+      "keptNodes": [
+        "Tower1",
+        "Tower1_Collider"
+      ],
+      "bytes": 108904,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "tower3",
+      "file": "assets/split/low_poly_winter_medieval_castle_and_town_pack/tower3.glb",
+      "keptNodes": [
+        "Tower3",
+        "Tower3_Collider"
+      ],
+      "bytes": 246704,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "wall1",
+      "file": "assets/split/low_poly_winter_medieval_castle_and_town_pack/wall1.glb",
+      "keptNodes": [
+        "Wall1",
+        "Wall1_Collider"
+      ],
+      "bytes": 118960,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "wall2",
+      "file": "assets/split/low_poly_winter_medieval_castle_and_town_pack/wall2.glb",
+      "keptNodes": [
+        "Wall2",
+        "Wall2_Collider"
+      ],
+      "bytes": 145660,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "wall3",
+      "file": "assets/split/low_poly_winter_medieval_castle_and_town_pack/wall3.glb",
+      "keptNodes": [
+        "Wall3",
+        "Wall3_Collider"
+      ],
+      "bytes": 118548,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "wall4",
+      "file": "assets/split/low_poly_winter_medieval_castle_and_town_pack/wall4.glb",
+      "keptNodes": [
+        "Wall4",
+        "Wall4_Collider"
+      ],
+      "bytes": 135524,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "windmill",
+      "file": "assets/split/low_poly_winter_medieval_castle_and_town_pack/windmill.glb",
+      "keptNodes": [
+        "Windmill",
+        "Windmill_Collider"
+      ],
+      "bytes": 331124,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "castle",
+      "file": "assets/split/low_poly_winter_medieval_castle_and_town_pack/castle.glb",
+      "keptNodes": [
+        "Castle",
+        "Castle_Collider"
+      ],
+      "bytes": 2887724,
+      "meshes": 3,
+      "visibleMeshes": 2,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "house1",
+      "file": "assets/split/low_poly_winter_medieval_castle_and_town_pack/house1.glb",
+      "keptNodes": [
+        "House1",
+        "House1_Collider"
+      ],
+      "bytes": 387672,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "house2",
+      "file": "assets/split/low_poly_winter_medieval_castle_and_town_pack/house2.glb",
+      "keptNodes": [
+        "House2",
+        "House2_Collider"
+      ],
+      "bytes": 268932,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "house3",
+      "file": "assets/split/low_poly_winter_medieval_castle_and_town_pack/house3.glb",
+      "keptNodes": [
+        "House3",
+        "House3_Collider"
+      ],
+      "bytes": 194804,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "house4",
+      "file": "assets/split/low_poly_winter_medieval_castle_and_town_pack/house4.glb",
+      "keptNodes": [
+        "House4",
+        "House4_Collider"
+      ],
+      "bytes": 310416,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "house5",
+      "file": "assets/split/low_poly_winter_medieval_castle_and_town_pack/house5.glb",
+      "keptNodes": [
+        "House5",
+        "House5_Collider"
+      ],
+      "bytes": 151952,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "church",
+      "file": "assets/split/low_poly_winter_medieval_castle_and_town_pack/church.glb",
+      "keptNodes": [
+        "Church",
+        "Church_Collider"
+      ],
+      "bytes": 382248,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "wagon1",
+      "file": "assets/split/low_poly_winter_medieval_castle_and_town_pack/wagon1.glb",
+      "keptNodes": [
+        "Wagon1",
+        "Wagon1_Collider"
+      ],
+      "bytes": 243892,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "wagon2",
+      "file": "assets/split/low_poly_winter_medieval_castle_and_town_pack/wagon2.glb",
+      "keptNodes": [
+        "Wagon2",
+        "Wagon2_Collider"
+      ],
+      "bytes": 509276,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "wagon3",
+      "file": "assets/split/low_poly_winter_medieval_castle_and_town_pack/wagon3.glb",
+      "keptNodes": [
+        "Wagon3",
+        "Wagon3_Collider"
+      ],
+      "bytes": 180240,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "marketstall1",
+      "file": "assets/split/low_poly_winter_medieval_castle_and_town_pack/marketstall1.glb",
+      "keptNodes": [
+        "MarketStall1",
+        "MarketStall1_Collider"
+      ],
+      "bytes": 1013320,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "marketstall2",
+      "file": "assets/split/low_poly_winter_medieval_castle_and_town_pack/marketstall2.glb",
+      "keptNodes": [
+        "MarketStall2",
+        "MarketStall2_Collider"
+      ],
+      "bytes": 1924876,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "marketstall3",
+      "file": "assets/split/low_poly_winter_medieval_castle_and_town_pack/marketstall3.glb",
+      "keptNodes": [
+        "MarketStall3",
+        "MarketStall3_Collider"
+      ],
+      "bytes": 794552,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "tent1",
+      "file": "assets/split/low_poly_winter_medieval_castle_and_town_pack/tent1.glb",
+      "keptNodes": [
+        "Tent1",
+        "Tent1_Collider"
+      ],
+      "bytes": 116636,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "tent2",
+      "file": "assets/split/low_poly_winter_medieval_castle_and_town_pack/tent2.glb",
+      "keptNodes": [
+        "Tent2",
+        "Tent2_Collider"
+      ],
+      "bytes": 173964,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "tent3",
+      "file": "assets/split/low_poly_winter_medieval_castle_and_town_pack/tent3.glb",
+      "keptNodes": [
+        "Tent3",
+        "Tent3_Collider"
+      ],
+      "bytes": 134900,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "tent4",
+      "file": "assets/split/low_poly_winter_medieval_castle_and_town_pack/tent4.glb",
+      "keptNodes": [
+        "Tent4",
+        "Tent4_Collider"
+      ],
+      "bytes": 205240,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "tent5",
+      "file": "assets/split/low_poly_winter_medieval_castle_and_town_pack/tent5.glb",
+      "keptNodes": [
+        "Tent5",
+        "Tent5_Collider"
+      ],
+      "bytes": 214776,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "item10",
+      "file": "assets/split/low_poly_winter_medieval_castle_and_town_pack/item10.glb",
+      "keptNodes": [
+        "Item10",
+        "Item10_Collider"
+      ],
+      "bytes": 55520,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "item11",
+      "file": "assets/split/low_poly_winter_medieval_castle_and_town_pack/item11.glb",
+      "keptNodes": [
+        "Item11",
+        "Item11_Collider"
+      ],
+      "bytes": 72524,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "item12",
+      "file": "assets/split/low_poly_winter_medieval_castle_and_town_pack/item12.glb",
+      "keptNodes": [
+        "Item12",
+        "Item12_Collider"
+      ],
+      "bytes": 130920,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "item13",
+      "file": "assets/split/low_poly_winter_medieval_castle_and_town_pack/item13.glb",
+      "keptNodes": [
+        "Item13",
+        "Item13_Collider"
+      ],
+      "bytes": 39712,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "item14",
+      "file": "assets/split/low_poly_winter_medieval_castle_and_town_pack/item14.glb",
+      "keptNodes": [
+        "Item14",
+        "Item14_Collider"
+      ],
+      "bytes": 49924,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "item15",
+      "file": "assets/split/low_poly_winter_medieval_castle_and_town_pack/item15.glb",
+      "keptNodes": [
+        "Item15",
+        "Item15_Collider"
+      ],
+      "bytes": 70928,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "item16",
+      "file": "assets/split/low_poly_winter_medieval_castle_and_town_pack/item16.glb",
+      "keptNodes": [
+        "Item16",
+        "Item16_Collider"
+      ],
+      "bytes": 219688,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "item17",
+      "file": "assets/split/low_poly_winter_medieval_castle_and_town_pack/item17.glb",
+      "keptNodes": [
+        "Item17",
+        "Item17_Collider"
+      ],
+      "bytes": 135792,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "item18",
+      "file": "assets/split/low_poly_winter_medieval_castle_and_town_pack/item18.glb",
+      "keptNodes": [
+        "Item18",
+        "Item18_Collider"
+      ],
+      "bytes": 103348,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "item19",
+      "file": "assets/split/low_poly_winter_medieval_castle_and_town_pack/item19.glb",
+      "keptNodes": [
+        "Item19",
+        "Item19_Collider"
+      ],
+      "bytes": 129012,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "item20",
+      "file": "assets/split/low_poly_winter_medieval_castle_and_town_pack/item20.glb",
+      "keptNodes": [
+        "Item20",
+        "Item20_Collider"
+      ],
+      "bytes": 75464,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "item21",
+      "file": "assets/split/low_poly_winter_medieval_castle_and_town_pack/item21.glb",
+      "keptNodes": [
+        "Item21",
+        "Item21_Collider"
+      ],
+      "bytes": 48148,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "item22",
+      "file": "assets/split/low_poly_winter_medieval_castle_and_town_pack/item22.glb",
+      "keptNodes": [
+        "Item22",
+        "Item22_Collider"
+      ],
+      "bytes": 56720,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "item2",
+      "file": "assets/split/low_poly_winter_medieval_castle_and_town_pack/item2.glb",
+      "keptNodes": [
+        "Item2",
+        "Item2_Collider"
+      ],
+      "bytes": 23824,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "item3",
+      "file": "assets/split/low_poly_winter_medieval_castle_and_town_pack/item3.glb",
+      "keptNodes": [
+        "Item3",
+        "Item3_Collider"
+      ],
+      "bytes": 18272,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "item4",
+      "file": "assets/split/low_poly_winter_medieval_castle_and_town_pack/item4.glb",
+      "keptNodes": [
+        "Item4",
+        "Item4_Collider"
+      ],
+      "bytes": 28420,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "item5",
+      "file": "assets/split/low_poly_winter_medieval_castle_and_town_pack/item5.glb",
+      "keptNodes": [
+        "Item5",
+        "Item5_Collider"
+      ],
+      "bytes": 23304,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "item6",
+      "file": "assets/split/low_poly_winter_medieval_castle_and_town_pack/item6.glb",
+      "keptNodes": [
+        "Item6",
+        "Item6_Collider"
+      ],
+      "bytes": 26136,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "item7",
+      "file": "assets/split/low_poly_winter_medieval_castle_and_town_pack/item7.glb",
+      "keptNodes": [
+        "Item7",
+        "Item7_Collider"
+      ],
+      "bytes": 25972,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "item8",
+      "file": "assets/split/low_poly_winter_medieval_castle_and_town_pack/item8.glb",
+      "keptNodes": [
+        "Item8",
+        "Item8_Collider"
+      ],
+      "bytes": 30100,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "item9",
+      "file": "assets/split/low_poly_winter_medieval_castle_and_town_pack/item9.glb",
+      "keptNodes": [
+        "Item9",
+        "Item9_Collider"
+      ],
+      "bytes": 48996,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "item1",
+      "file": "assets/split/low_poly_winter_medieval_castle_and_town_pack/item1.glb",
+      "keptNodes": [
+        "Item1",
+        "Item1_Collider"
+      ],
+      "bytes": 69672,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "waterhole1",
+      "file": "assets/split/low_poly_winter_medieval_castle_and_town_pack/waterhole1.glb",
+      "keptNodes": [
+        "Waterhole1",
+        "Waterhole1_Collider"
+      ],
+      "bytes": 233040,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "waterhole2",
+      "file": "assets/split/low_poly_winter_medieval_castle_and_town_pack/waterhole2.glb",
+      "keptNodes": [
+        "Waterhole2",
+        "Waterhole2_Collider"
+      ],
+      "bytes": 254788,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    }
+  ]
+}

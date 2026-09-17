@@ -1,0 +1,42 @@
+{
+  "source": "assets/low_poly_market_stall_pack.glb",
+  "count": 3,
+  "items": [
+    {
+      "name": "market_stall_1",
+      "file": "assets/split/low_poly_market_stall_pack/market_stall_1.glb",
+      "keptNodes": [
+        "Cylinder.054",
+        "Cube.062"
+      ],
+      "bytes": 1013080,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "market_stall_2",
+      "file": "assets/split/low_poly_market_stall_pack/market_stall_2.glb",
+      "keptNodes": [
+        "Cube.067",
+        "Cylinder.015"
+      ],
+      "bytes": 1924504,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    },
+    {
+      "name": "market_stall_3",
+      "file": "assets/split/low_poly_market_stall_pack/market_stall_3.glb",
+      "keptNodes": [
+        "Cube.057",
+        "Cube.056"
+      ],
+      "bytes": 794952,
+      "meshes": 2,
+      "visibleMeshes": 1,
+      "colliderMeshes": 1
+    }
+  ]
+}

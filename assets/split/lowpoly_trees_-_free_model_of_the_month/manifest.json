@@ -1,0 +1,39 @@
+{
+  "source": "assets/lowpoly_trees_-_free_model_of_the_month.glb",
+  "count": 3,
+  "items": [
+    {
+      "name": "tree1",
+      "file": "assets/split/lowpoly_trees_-_free_model_of_the_month/tree1.glb",
+      "keptNodes": [
+        "Tree1"
+      ],
+      "bytes": 27944,
+      "meshes": 2,
+      "visibleMeshes": 2,
+      "colliderMeshes": 0
+    },
+    {
+      "name": "tree2",
+      "file": "assets/split/lowpoly_trees_-_free_model_of_the_month/tree2.glb",
+      "keptNodes": [
+        "Tree2"
+      ],
+      "bytes": 16788,
+      "meshes": 2,
+      "visibleMeshes": 2,
+      "colliderMeshes": 0
+    },
+    {
+      "name": "tree3",
+      "file": "assets/split/lowpoly_trees_-_free_model_of_the_month/tree3.glb",
+      "keptNodes": [
+        "Tree3"
+      ],
+      "bytes": 17304,
+      "meshes": 3,
+      "visibleMeshes": 3,
+      "colliderMeshes": 0
+    }
+  ]
+}
