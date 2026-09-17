@@ -1,0 +1,166 @@
+name: Presentation visuals
+
+on:
+  push:
+    branches:
+      - 'kilo/elegant-laser-keo'
+    paths:
+      - '.github/workflows/visual-package.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Build and install browser
+        run: |
+          set -euo pipefail
+          npm install --no-audit --no-fund --package-lock=false
+          npm run build
+          npm install --no-save --package-lock=false playwright@1.55.0
+          npx playwright install --with-deps chromium
+          python3 -m pip install --quiet --break-system-packages pillow
+
+      - name: Start preview
+        run: |
+          set -euo pipefail
+          nohup npm run preview -- --host 127.0.0.1 --port 4173 >/tmp/preview.log 2>&1 &
+          for i in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/preview.log
+          exit 1
+
+      - name: Capture meaningful game states
+        run: |
+          set -euo pipefail
+          mkdir -p docs/visuals
+          cat > visual-capture.mjs <<'JS'
+          import { chromium } from './node_modules/playwright/index.mjs';
+          import fs from 'node:fs';
+
+          const browser = await chromium.launch({ headless: true, args: ['--use-gl=swiftshader','--enable-unsafe-swiftshader'] });
+          const page = await browser.newPage({ viewport: { width: 1365, height: 768 } });
+          const errors = [];
+          const warnings = [];
+          page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); if (m.type() === 'warning') warnings.push(m.text()); });
+          page.on('pageerror', e => errors.push(String(e)));
+
+          await page.goto('http://127.0.0.1:4173/', { waitUntil: 'networkidle' });
+          await page.waitForFunction(() => !!window.__snowResourceGame);
+          await page.waitForTimeout(1200);
+
+          await page.screenshot({ path: 'docs/visuals/00-title-hero.png' });
+
+          await page.keyboard.down('KeyW');
+          await page.keyboard.down('KeyD');
+          await page.waitForTimeout(900);
+          await page.keyboard.up('KeyD');
+          await page.keyboard.up('KeyW');
+          await page.waitForTimeout(450);
+          await page.evaluate(() => {
+            const g = window.__snowResourceGame;
+            g.inventory.add('wood');
+            g.inventory.add('rawMeat');
+            g.uiManager.showStatus('Resources collected — head to the campfire or market.', 'success');
+          });
+          await page.waitForTimeout(250);
+          await page.screenshot({ path: 'docs/visuals/01-gameplay.png' });
+
+          await page.click('#pause-button');
+          await page.waitForTimeout(250);
+          await page.screenshot({ path: 'docs/visuals/02-ui-menu.png' });
+          await page.click('#pause-button');
+
+          await page.evaluate(() => {
+            const g = window.__snowResourceGame;
+            g.gameState.setCash(200);
+            g.player.position.set(31, 0, 0);
+          });
+          await page.waitForTimeout(950);
+          await page.evaluate(() => {
+            const g = window.__snowResourceGame;
+            g.player.position.set(61, 0, 0);
+          });
+          await page.waitForTimeout(850);
+          await page.screenshot({ path: 'docs/visuals/03-special-mechanic.png' });
+
+          const state = await page.evaluate(() => {
+            const g = window.__snowResourceGame;
+            return {
+              title: document.title,
+              cash: g.gameState.getCash(),
+              expansionUnlocked: g.mapManager.expansions.get('fishingArea')?.unlocked === true,
+              inventory: g.inventory.getItems().map(item => item.type),
+              status: document.querySelector('#status-value')?.textContent || ''
+            };
+          });
+
+          fs.writeFileSync('docs/visuals/visual-report.json', JSON.stringify({
+            testedAt: new Date().toISOString(),
+            states: {
+              '00-title-hero.png': 'Initial hero view / starting outpost',
+              '01-gameplay.png': 'Movement plus visible resource stack and gameplay HUD',
+              '02-ui-menu.png': 'Paused control state / HUD controls',
+              '03-special-mechanic.png': 'Fishing-area expansion unlocked and entered'
+            },
+            state,
+            consoleErrors: errors,
+            consoleWarnings: warnings
+          }, null, 2));
+
+          await browser.close();
+          if (errors.length) process.exit(1);
+          if (!state.expansionUnlocked) throw new Error('Expansion did not unlock during visual capture');
+          JS
+          node visual-capture.mjs
+          rm visual-capture.mjs
+
+      - name: Build contact sheet
+        run: |
+          python3 - <<'PY'
+          from PIL import Image, ImageDraw
+          from pathlib import Path
+          items = [
+              ('00-title-hero.png', 'TITLE / HERO'),
+              ('01-gameplay.png', 'GAMEPLAY'),
+              ('02-ui-menu.png', 'UI / MENU'),
+              ('03-special-mechanic.png', 'SPECIAL MECHANIC'),
+          ]
+          root = Path('docs/visuals')
+          opened = [Image.open(root / name).convert('RGB') for name, _ in items]
+          w, h = opened[0].size
+          label_h = 44
+          sheet = Image.new('RGB', (w * 2, (h + label_h) * 2), 'black')
+          draw = ImageDraw.Draw(sheet)
+          for i, (image, (_, label)) in enumerate(zip(opened, items)):
+              x = (i % 2) * w
+              y = (i // 2) * (h + label_h)
+              sheet.paste(image, (x, y))
+              draw.rectangle((x, y + h, x + w, y + h + label_h), fill='black')
+              draw.text((x + 16, y + h + 13), label, fill='white')
+          sheet.save(root / '04-contact-sheet.jpg', quality=88, optimize=True)
+          PY
+
+      - name: Commit visual package
+        run: |
+          set -euo pipefail
+          git checkout -- src/main.js 2>/dev/null || true
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs/visuals
+          git diff --cached --quiet && { echo 'No visual changes'; exit 0; }
+          git commit -m 'Add presentation visual package'
+          git push
